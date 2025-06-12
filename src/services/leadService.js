@@ -1,9 +1,7 @@
-import type { Lead } from '../types/lead';
-
 const API_BASE_URL = 'http://localhost:3001';
 
 export const leadService = {
-  async getLeads(): Promise<Lead[]> {
+  async getLeads() {
     const response = await fetch(`${API_BASE_URL}/leads`);
     if (!response.ok) {
       throw new Error('Failed to fetch leads');
@@ -11,7 +9,7 @@ export const leadService = {
     return response.json();
   },
 
-  async createLead(lead: Omit<Lead, 'id'>): Promise<Lead> {
+  async createLead(lead) {
     const response = await fetch(`${API_BASE_URL}/leads`, {
       method: 'POST',
       headers: {
@@ -29,7 +27,7 @@ export const leadService = {
     return response.json();
   },
 
-  async deleteLead(id: number): Promise<void> {
+  async deleteLead(id) {
     const response = await fetch(`${API_BASE_URL}/leads/${id}`, {
       method: 'DELETE',
     });

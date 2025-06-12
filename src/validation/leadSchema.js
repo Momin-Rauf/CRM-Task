@@ -1,6 +1,4 @@
 import * as Yup from 'yup';
-import type { LeadSource } from '../types/lead';
-
 
 const jobSchema = Yup.object({
   title: Yup.string().required('Job title is required'),
@@ -14,7 +12,6 @@ const jobSchema = Yup.object({
   }),
 });
 
-// Lead form validation
 export const leadSchema = Yup.object({
   companyName: Yup.string().required('Company name is required'),
   contactPerson: Yup.string().required('Contact person name is required'),
@@ -29,7 +26,7 @@ export const leadSchema = Yup.object({
     .required('Phone number is required'),
 
   leadSource: Yup.string()
-    .oneOf(['Website', 'Referral', 'Cold Call', 'Other'] as LeadSource[])
+    .oneOf(['Website', 'Referral', 'Cold Call', 'Other'])
     .required('Lead source is required'),
 
   otherSource: Yup.string().when('leadSource', {

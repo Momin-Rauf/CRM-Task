@@ -1,18 +1,6 @@
 import { create } from 'zustand';
 
-interface LeadStore {
-  isModalOpen: boolean;
-  selectedLeadId: number | null;
-  showToast: boolean;
-  toastMessage: string;
-  setModalOpen: (isOpen: boolean) => void;
-  setSelectedLeadId: (id: number | null) => void;
-  showSuccessToast: (message: string) => void;
-  showErrorToast: (message: string) => void;
-  hideToast: () => void;
-}
-
-export const useLeadStore = create<LeadStore>((set) => ({
+export const useLeadStore = create((set) => ({
   isModalOpen: false,
   selectedLeadId: null,
   showToast: false,

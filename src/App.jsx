@@ -6,11 +6,10 @@ import { LeadForm } from './components/LeadForm';
 import { useLeadStore } from './store/leadStore';
 import { useMutation, useQueryClient } from 'react-query';
 import { leadService } from './services/leadService';
-import type { Lead } from './types/lead';
 
 const queryClient = new QueryClient();
 
-const AppContent: React.FC = () => {
+const AppContent = () => {
   const { isModalOpen, setModalOpen, showToast, toastMessage, hideToast } = useLeadStore();
   const queryClient = useQueryClient();
 
@@ -21,7 +20,7 @@ const AppContent: React.FC = () => {
     },
   });
 
-  const handleSubmit = (values: Omit<Lead, 'id'>) => {
+  const handleSubmit = (values) => {
     createMutation.mutate(values);
   };
 
@@ -66,7 +65,7 @@ const AppContent: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AppContent />

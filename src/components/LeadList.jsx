@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   MaterialReactTable,
-  type MRT_ColumnDef,
 } from 'material-react-table';
-import type { Lead } from '../types/lead';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { leadService } from '../services/leadService';
 import { useLeadStore } from '../store/leadStore';
@@ -11,7 +9,7 @@ import { IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export const LeadList: React.FC = () => {
+export const LeadList = () => {
   const queryClient = useQueryClient();
   const { setModalOpen, setSelectedLeadId, showErrorToast } = useLeadStore();
 
@@ -26,18 +24,18 @@ export const LeadList: React.FC = () => {
     },
   });
 
-  const handleEdit = (lead: Lead) => {
-    setSelectedLeadId(lead.id!);
+  const handleEdit = (lead) => {
+    setSelectedLeadId(lead.id);
     setModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this lead?')) {
       deleteMutation.mutate(id);
     }
   };
 
-  const columns: MRT_ColumnDef<Lead>[] = [
+  const columns = [
     {
       accessorKey: 'companyName',
       header: 'Company Name',
@@ -61,7 +59,7 @@ export const LeadList: React.FC = () => {
     {
       accessorKey: 'followUpDate',
       header: 'Follow-up Date',
-      Cell: ({ cell }) => new Date(cell.getValue<string>()).toLocaleDateString(),
+      Cell: ({ cell }) => new Date(cell.getValue()).toLocaleDateString(),
     },
     {
       id: 'actions',
@@ -77,7 +75,7 @@ export const LeadList: React.FC = () => {
           </IconButton>
           <IconButton
             size="small"
-            onClick={() => handleDelete(row.original.id!)}
+            onClick={() => handleDelete(row.original.id)}
             color="error"
           >
             <DeleteIcon />

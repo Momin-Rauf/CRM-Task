@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik, Form, FieldArray } from 'formik';
-import type { FormikErrors } from 'formik';
 import {
   Box,
   Button,
@@ -13,27 +12,21 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { leadSchema } from '../validation/leadSchema';
-import type { Lead, LeadSource, JobType, Job } from '../types/lead';
-
-interface LeadFormProps {
-  onSubmit: (values: Omit<Lead, 'id'>) => void;
-  initialValues?: Partial<Lead>;
-}
 
 const initialJob = {
   title: '',
-  type: 'Full-time' as JobType,
+  type: 'Full-time',
   salaryRange: '',
 };
 
-export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) => {
-  const defaultValues: Omit<Lead, 'id'> = {
+export const LeadForm = ({ onSubmit, initialValues }) => {
+  const defaultValues = {
     companyName: '',
     contactPerson: '',
     designation: '',
     email: '',
     phone: '',
-    leadSource: 'Website' as LeadSource,
+    leadSource: 'Website',
     otherSource: '',
     followUpDate: new Date().toISOString(),
     jobs: [initialJob],
@@ -46,9 +39,7 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
       validationSchema={leadSchema}
       onSubmit={onSubmit}
     >
-      {({ values, errors, touched, handleChange}) => {
-        const typedErrors = errors as FormikErrors<Omit<Lead, 'id'>>;
-        const jobErrors = typedErrors.jobs as FormikErrors<Job>[] | undefined;
+      {({ values, errors, touched, handleChange }) => {
         return (
           <Form>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -58,8 +49,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Company Name"
                 value={values.companyName}
                 onChange={handleChange}
-                error={touched.companyName && Boolean(typedErrors.companyName)}
-                helperText={touched.companyName && typedErrors.companyName}
+                error={touched.companyName && Boolean(errors.companyName)}
+                helperText={touched.companyName && errors.companyName}
               />
 
               <TextField
@@ -68,8 +59,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Contact Person"
                 value={values.contactPerson}
                 onChange={handleChange}
-                error={touched.contactPerson && Boolean(typedErrors.contactPerson)}
-                helperText={touched.contactPerson && typedErrors.contactPerson}
+                error={touched.contactPerson && Boolean(errors.contactPerson)}
+                helperText={touched.contactPerson && errors.contactPerson}
               />
 
               <TextField
@@ -78,8 +69,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Designation"
                 value={values.designation}
                 onChange={handleChange}
-                error={touched.designation && Boolean(typedErrors.designation)}
-                helperText={touched.designation && typedErrors.designation}
+                error={touched.designation && Boolean(errors.designation)}
+                helperText={touched.designation && errors.designation}
               />
 
               <TextField
@@ -89,8 +80,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 type="email"
                 value={values.email}
                 onChange={handleChange}
-                error={touched.email && Boolean(typedErrors.email)}
-                helperText={touched.email && typedErrors.email}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
               />
 
               <TextField
@@ -99,8 +90,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Phone Number"
                 value={values.phone}
                 onChange={handleChange}
-                error={touched.phone && Boolean(typedErrors.phone)}
-                helperText={touched.phone && typedErrors.phone}
+                error={touched.phone && Boolean(errors.phone)}
+                helperText={touched.phone && errors.phone}
               />
 
               <TextField
@@ -110,8 +101,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Lead Source"
                 value={values.leadSource}
                 onChange={handleChange}
-                error={touched.leadSource && Boolean(typedErrors.leadSource)}
-                helperText={touched.leadSource && typedErrors.leadSource}
+                error={touched.leadSource && Boolean(errors.leadSource)}
+                helperText={touched.leadSource && errors.leadSource}
               >
                 {['Website', 'Referral', 'Cold Call', 'Other'].map((source) => (
                   <MenuItem key={source} value={source}>
@@ -127,8 +118,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                   label="Other Source"
                   value={values.otherSource}
                   onChange={handleChange}
-                  error={touched.otherSource && Boolean(typedErrors.otherSource)}
-                  helperText={touched.otherSource && typedErrors.otherSource}
+                  error={touched.otherSource && Boolean(errors.otherSource)}
+                  helperText={touched.otherSource && errors.otherSource}
                 />
               )}
 
@@ -139,8 +130,8 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                 label="Follow-up Date"
                 value={values.followUpDate.split('T')[0]}
                 onChange={handleChange}
-                error={touched.followUpDate && Boolean(typedErrors.followUpDate)}
-                helperText={touched.followUpDate && typedErrors.followUpDate}
+                error={touched.followUpDate && Boolean(errors.followUpDate)}
+                helperText={touched.followUpDate && errors.followUpDate}
                 InputLabelProps={{ shrink: true }}
               />
 
@@ -162,10 +153,10 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                             onChange={handleChange}
                             error={
                               touched.jobs?.[index]?.title &&
-                              Boolean(jobErrors?.[index]?.title)
+                              Boolean(errors.jobs?.[index]?.title)
                             }
                             helperText={
-                              touched.jobs?.[index]?.title && jobErrors?.[index]?.title
+                              touched.jobs?.[index]?.title && errors.jobs?.[index]?.title
                             }
                           />
 
@@ -178,10 +169,10 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                             onChange={handleChange}
                             error={
                               touched.jobs?.[index]?.type &&
-                              Boolean(jobErrors?.[index]?.type)
+                              Boolean(errors.jobs?.[index]?.type)
                             }
                             helperText={
-                              touched.jobs?.[index]?.type && jobErrors?.[index]?.type
+                              touched.jobs?.[index]?.type && errors.jobs?.[index]?.type
                             }
                           >
                             {['Full-time', 'Part-time'].map((type) => (
@@ -200,10 +191,10 @@ export const LeadForm: React.FC<LeadFormProps> = ({ onSubmit, initialValues }) =
                               onChange={handleChange}
                               error={
                                 touched.jobs?.[index]?.salaryRange &&
-                                Boolean(jobErrors?.[index]?.salaryRange)
+                                Boolean(errors.jobs?.[index]?.salaryRange)
                               }
                               helperText={
-                                touched.jobs?.[index]?.salaryRange && jobErrors?.[index]?.salaryRange
+                                touched.jobs?.[index]?.salaryRange && errors.jobs?.[index]?.salaryRange
                               }
                             />
                           )}
